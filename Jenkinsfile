@@ -37,16 +37,23 @@ pipeline {
 
 
         stage ('Docker Build') {
-         
-            docker.build('springboot_ecr')
+            steps{
+                script{
+                    
+                    docker.build('springboot_ecr')
+        }
+        }
         }
 
         stage ('Docker Push'){
-            withDockerRegistry(credentialsId: 'ecr:us-east-1:aws_cred', url: '373595631462.dkr.ecr.us-east-1.amazonaws.com/springboot_ecr') {
-    docker.image('springboot').push('latest')
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'ecr:us-east-1:aws_cred', url: '373595631462.dkr.ecr.us-east-1.amazonaws.com/springboot_ecr') {
+                    docker.image('springboot').push('latest')
         }
         }
-
+        }
+        }
     //     stage('Kubernetes Deploy') {
 	//   agent { label 'KOPS' }
     //         steps {
